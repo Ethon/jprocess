@@ -1,10 +1,8 @@
 package cc.ethon.jprocess.factory;
 
-import java.util.Comparator;
-
 import cc.ethon.jprocess.common.OperatingSystemDetection;
 import cc.ethon.jprocess.common.OperatingSystemDetection.OperatingSystem;
-import cc.ethon.jprocess.process.ProcessSnapshot;
+import cc.ethon.jprocess.process.ProcessApi;
 
 public abstract class SystemFactory {
 
@@ -22,8 +20,6 @@ public abstract class SystemFactory {
 		return instance;
 	}
 
-	public abstract ProcessSnapshot createProcessSnapshot();
-
-	public abstract Comparator<String> getDefaultProcessNameComparator();
+	public abstract ProcessApi getProcessApi();
 
 }

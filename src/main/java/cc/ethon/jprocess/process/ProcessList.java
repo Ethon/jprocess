@@ -10,7 +10,7 @@ import cc.ethon.jprocess.factory.SystemFactory;
 public final class ProcessList {
 
 	public static void forEach(Consumer<Process> consumer) throws Exception {
-		try (ProcessSnapshot snapshot = SystemFactory.getInstance().createProcessSnapshot()) {
+		try (ProcessSnapshot snapshot = SystemFactory.getInstance().getProcessApi().createProcessSnapshot()) {
 			snapshot.createSnapshot();
 			Optional<Process> current = snapshot.getFirstProcess();
 			while (current.isPresent()) {
@@ -21,7 +21,7 @@ public final class ProcessList {
 	}
 
 	public static Optional<Process> findProcess(SystemPredicate<Process> predicate) throws Exception {
-		try (ProcessSnapshot snapshot = SystemFactory.getInstance().createProcessSnapshot()) {
+		try (ProcessSnapshot snapshot = SystemFactory.getInstance().getProcessApi().createProcessSnapshot()) {
 			snapshot.createSnapshot();
 			final Optional<Process> current = snapshot.getFirstProcess();
 			while (current.isPresent()) {
@@ -46,7 +46,7 @@ public final class ProcessList {
 	}
 
 	public static Optional<Process> findProcessByName(String name) throws Exception {
-		return findProcessByName(name, SystemFactory.getInstance().getDefaultProcessNameComparator());
+		return findProcessByName(name, SystemFactory.getInstance().getProcessApi().getDefaultNameComparator());
 	}
 
 	public static Optional<Process> findProcessByName(String name, Comparator<String> comparator) throws Exception {
