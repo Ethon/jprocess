@@ -1,5 +1,6 @@
-package cc.ethon.jprocess.factory;
+package cc.ethon.jprocess.factory.win32;
 
+import cc.ethon.jprocess.factory.SystemFactory;
 import cc.ethon.jprocess.process.ProcessApi;
 import cc.ethon.jprocess.process.win32.Win32ProcessApi;
 
