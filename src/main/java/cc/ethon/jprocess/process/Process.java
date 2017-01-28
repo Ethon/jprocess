@@ -8,9 +8,9 @@ public interface Process {
 
 	public int getPid();
 
-	public int getParentPid();
+	public int getParentPid() throws SystemException;
 
-	public String getName();
+	public String getName() throws SystemException;
 
 	public File getExecutablePath() throws SystemException;
 

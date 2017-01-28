@@ -14,7 +14,7 @@ public class LazyValue<T> {
 		this.supplier = supplier;
 	}
 
-	public T getValue() {
+	public synchronized T getValue() {
 		if (!isPresent) {
 			value = supplier.get();
 			isPresent = true;

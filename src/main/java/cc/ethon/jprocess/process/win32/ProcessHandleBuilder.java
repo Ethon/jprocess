@@ -21,6 +21,9 @@ public class ProcessHandleBuilder {
 	}
 
 	public HANDLE open() throws Win32Exception {
+		if (processId == Kernel32.INSTANCE.GetCurrentProcessId()) {
+			return Kernel32.INSTANCE.GetCurrentProcess();
+		}
 		final HANDLE handle = Kernel32.INSTANCE.OpenProcess(access, false, processId);
 		if (handle == null) {
 			throw Win32Exception.fromLastError("OpenProcess failed for " + processId + " with flags " + Integer.toBinaryString(access));

@@ -1,11 +1,16 @@
 package cc.ethon.jprocess.common;
 
-
 public class LazySystemValue<T> {
 
 	private T value;
 	private boolean isPresent;
 	private SystemSupplier<T> supplier;
+
+	public LazySystemValue(T value) {
+		this.value = value;
+		this.isPresent = true;
+		this.supplier = null;
+	}
 
 	public LazySystemValue(SystemSupplier<T> supplier) {
 		value = null;
@@ -13,7 +18,7 @@ public class LazySystemValue<T> {
 		this.supplier = supplier;
 	}
 
-	public T getValue() throws SystemException {
+	public synchronized T getValue() throws SystemException {
 		if (!isPresent) {
 			value = supplier.get();
 			isPresent = true;
