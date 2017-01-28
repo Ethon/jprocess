@@ -32,8 +32,42 @@ public class LazySystemValue<T> {
 	}
 
 	@Override
-	public String toString() {
-		return "LazySystemValue [value=" + value + ", isPresent=" + isPresent + "]";
+	public int hashCode() {
+		try {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + (getValue() == null ? 0 : getValue().hashCode());
+			return result;
+		} catch (final Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public boolean equals(Object obj) {
+		try {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (getClass() != obj.getClass()) {
+				return false;
+			}
+			final LazySystemValue other = (LazySystemValue) obj;
+			if (getValue() == null) {
+				if (other.getValue() != null) {
+					return false;
+				}
+			} else if (!getValue().equals(other.getValue())) {
+				return false;
+			}
+			return true;
+		} catch (final Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }
