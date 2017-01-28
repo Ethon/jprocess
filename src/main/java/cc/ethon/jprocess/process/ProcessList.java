@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 
 import cc.ethon.jprocess.factory.SystemFactory;
 
-public class ProcessList {
+public final class ProcessList {
 
 	public static void forEach(Consumer<Process> consumer) throws Exception {
 		try (ProcessSnapshot snapshot = SystemFactory.getInstance().createProcessSnapshot()) {
