@@ -4,18 +4,15 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Scanner;
-import java.util.regex.Pattern;
+import java.io.InputStream;
 
 import cc.ethon.jprocess.common.SystemException;
+import cc.ethon.jprocess.util.StreamReaderUtil;
 
 public class ProcStat {
 
 	// Expected format:
 	// pid (comm) state ppid
-
-	private static final Pattern PAREN_PATTERN = Pattern.compile("\\)");
-	private static Pattern WHITESPACE_PATTERN = Pattern.compile("\\p{javaWhitespace}+");
 
 	private final File file;
 	private int pid;
@@ -27,19 +24,11 @@ public class ProcStat {
 	}
 
 	public void read() throws SystemException {
-		try (final Scanner scanner = new Scanner(new BufferedInputStream(new FileInputStream(file)));) {
-			// pid
-			pid = scanner.nextInt();
-
-			// command
-			scanner.useDelimiter(PAREN_PATTERN);
-			final String parenCommand = scanner.next();
-			command = parenCommand.substring(1);
-			scanner.useDelimiter(WHITESPACE_PATTERN);
-
-			// Rest
-			scanner.next(); // Skip state
-			parentPid = scanner.nextInt();
+		try (InputStream in = new BufferedInputStream(new FileInputStream(file), 64)) {
+			pid = StreamReaderUtil.readDecimalInt(in);
+			command = StreamReaderUtil.readEnclosedString(in, '(', ')');
+			StreamReaderUtil.skip(in, 3); // Skip ' S '
+			parentPid = StreamReaderUtil.readDecimalInt(in);
 		} catch (final IOException e) {
 			throw new SystemException("Failed to read stat file '" + file + "'", e);
 		}
